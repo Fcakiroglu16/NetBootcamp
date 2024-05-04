@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBootcamp.API", "NetBootcamp.API\NetBootcamp.API.csproj", "{1B1E59D0-C476-40AB-A289-4262227D5D07}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bootcamp.Web", "Bootcamp.Web\Bootcamp.Web.csproj", "{B98A0960-DFCB-4F79-A7CB-7134DD95B928}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{1B1E59D0-C476-40AB-A289-4262227D5D07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B1E59D0-C476-40AB-A289-4262227D5D07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B1E59D0-C476-40AB-A289-4262227D5D07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B98A0960-DFCB-4F79-A7CB-7134DD95B928}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B98A0960-DFCB-4F79-A7CB-7134DD95B928}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B98A0960-DFCB-4F79-A7CB-7134DD95B928}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B98A0960-DFCB-4F79-A7CB-7134DD95B928}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
