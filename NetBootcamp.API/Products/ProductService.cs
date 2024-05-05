@@ -1,20 +1,29 @@
 ﻿using System.Collections.Immutable;
 using System.Net;
+using Microsoft.AspNetCore.Mvc;
 using NetBootcamp.API.DTOs;
+using NetBootcamp.API.Products.DTOs;
 
-namespace NetBootcamp.API.Models
+namespace NetBootcamp.API.Products
 {
-    public class ProductService
+    public class ProductService(IProductRepository productRepository) : IProductService
     {
-        private readonly ProductRepository _productRepository = new();
+        //private readonly IProductRepository _productRepository;
+
+        //public ProductService(IProductRepository productRepository)
+        //{
+        //    _productRepository = productRepository;
+
+        //}
 
 
-        public ResponseModelDto<ImmutableList<ProductDto>> GetAllWithCalculatedTax()
+        public ResponseModelDto<ImmutableList<ProductDto>> GetAllWithCalculatedTax(
+            PriceCalculator priceCalculator)
         {
-            var productList = _productRepository.GetAll().Select(product => new ProductDto(
+            var productList = productRepository.GetAll().Select(product => new ProductDto(
                 product.Id,
                 product.Name,
-                CalculateKdv(product.Price, 1.20m),
+                priceCalculator.CalculateKdv(product.Price, 1.20m),
                 product.Created.ToShortDateString()
             )).ToImmutableList();
 
@@ -22,9 +31,10 @@ namespace NetBootcamp.API.Models
             return ResponseModelDto<ImmutableList<ProductDto>>.Success(productList);
         }
 
-        public ResponseModelDto<ProductDto?> GetByIdWithCalculatedTax(int id)
+        public ResponseModelDto<ProductDto?> GetByIdWithCalculatedTax(int id,
+            PriceCalculator priceCalculator)
         {
-            var hasProduct = _productRepository.GetById(id);
+            var hasProduct = productRepository.GetById(id);
 
             if (hasProduct is null)
             {
@@ -35,7 +45,7 @@ namespace NetBootcamp.API.Models
             var newDto = new ProductDto(
                 hasProduct.Id,
                 hasProduct.Name,
-                CalculateKdv(hasProduct.Price, 1.20m),
+                priceCalculator.CalculateKdv(hasProduct.Price, 1.20m),
                 hasProduct.Created.ToShortDateString()
             );
 
@@ -47,13 +57,13 @@ namespace NetBootcamp.API.Models
         {
             var newProduct = new Product
             {
-                Id = _productRepository.GetAll().Count + 1,
+                Id = productRepository.GetAll().Count + 1,
                 Name = request.Name,
                 Price = request.Price,
                 Created = DateTime.Now
             };
 
-            _productRepository.Create(newProduct);
+            productRepository.Create(newProduct);
 
             return ResponseModelDto<int>.Success(newProduct.Id, HttpStatusCode.Created);
         }
@@ -62,7 +72,7 @@ namespace NetBootcamp.API.Models
 
         public ResponseModelDto<NoContent> Update(int productId, ProductUpdateRequestDto request)
         {
-            var hasProduct = _productRepository.GetById(productId);
+            var hasProduct = productRepository.GetById(productId);
 
             if (hasProduct is null)
             {
@@ -78,7 +88,7 @@ namespace NetBootcamp.API.Models
                 Created = hasProduct.Created
             };
 
-            _productRepository.Update(updatedProduct);
+            productRepository.Update(updatedProduct);
 
             return ResponseModelDto<NoContent>.Success(HttpStatusCode.NoContent);
         }
@@ -86,7 +96,7 @@ namespace NetBootcamp.API.Models
 
         public ResponseModelDto<NoContent> Delete(int id)
         {
-            var hasProduct = _productRepository.GetById(id);
+            var hasProduct = productRepository.GetById(id);
 
             if (hasProduct is null)
             {
@@ -95,12 +105,9 @@ namespace NetBootcamp.API.Models
             }
 
 
-            _productRepository.Delete(id);
+            productRepository.Delete(id);
 
             return ResponseModelDto<NoContent>.Success(HttpStatusCode.NoContent);
         }
-
-
-        private decimal CalculateKdv(decimal price, decimal tax) => price * tax;
     }
 }

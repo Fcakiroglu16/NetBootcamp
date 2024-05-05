@@ -1,4 +1,4 @@
-﻿namespace NetBootcamp.API.DTOs
+﻿namespace NetBootcamp.API.Products.DTOs
 {
     // yeni hal
     public record ProductCreateRequestDto(string Name, decimal Price);

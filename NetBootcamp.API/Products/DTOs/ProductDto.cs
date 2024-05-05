@@ -1,4 +1,4 @@
-﻿namespace NetBootcamp.API.DTOs
+﻿namespace NetBootcamp.API.Products.DTOs
 {
     public record ProductDto(int Id, string Name, decimal Price, string Created);
 

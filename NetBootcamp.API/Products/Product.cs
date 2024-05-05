@@ -1,4 +1,4 @@
-﻿namespace NetBootcamp.API.Models
+﻿namespace NetBootcamp.API.Products
 {
     public class Product
     {

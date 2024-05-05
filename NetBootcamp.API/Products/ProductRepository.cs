@@ -1,8 +1,6 @@
-﻿using NetBootcamp.API.Controllers;
-
-namespace NetBootcamp.API.Models
+﻿namespace NetBootcamp.API.Products
 {
-    public class ProductRepository
+    public class ProductRepository : IProductRepository
     {
         private static List<Product> _products =
         [
