@@ -1,48 +1,62 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Diagnostics.Eventing.Reader;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using NetBootcamp.API.DTOs;
 using NetBootcamp.API.Models;
 
 namespace NetBootcamp.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ProductsController : ControllerBase
+    public class ProductsController : CustomBaseController
     {
         private readonly ProductService _productService = new();
 
-
+        //baseUrl/api/products
         [HttpGet]
-        public IActionResult GetProducts()
+        public IActionResult GetAll()
         {
             return Ok(_productService.GetAllWithCalculatedTax());
         }
 
-        //[HttpGet]
-        //public IActionResult Get(int id)
+        [HttpGet("{productId}")]
+        public IActionResult GetById(int productId)
+        {
+            return CreateActionResult(_productService.GetByIdWithCalculatedTax(productId));
+        }
+
+
+        // complex type => class,record,struct => request body as Json
+        // simple type => int,string,decimal => query string by default / route data
+
+        [HttpPost]
+        public IActionResult Create(ProductCreateRequestDto request)
+        {
+            var result = _productService.Create(request);
+
+            return CreateActionResult(result, nameof(GetById), new { productId = result.Data });
+        }
+
+        // PUT localhost/api/products/10
+        [HttpPut("{productId}")]
+        public IActionResult Update(int productId, ProductUpdateRequestDto request)
+        {
+            return CreateActionResult(_productService.Update(productId, request));
+        }
+
+
+        //// PUT api/products   
+        //[HttpPut]
+        //public IActionResult Update2(ProductUpdateRequestDto request)
         //{
-        //    var product = _productService.GetById(id);
+        //    _productService.Update(request);
 
-        //    if (product is null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return Ok(product);
+        //    return NoContent();
         //}
 
-
-        [HttpDelete]
-        public IActionResult Delete(int id)
+        [HttpDelete("{productId}")]
+        public IActionResult Delete(int productId)
         {
-            var result = _productService.Delete(id);
-
-            if (!result.IsSuccess)
-            {
-                return BadRequest(result.FailMessages);
-            }
-
-            return NoContent();
+            return CreateActionResult(_productService.Delete(productId));
         }
     }
 }
