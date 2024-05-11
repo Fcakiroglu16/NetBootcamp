@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using NetBootcamp.API.Controllers;
 using NetBootcamp.API.DTOs;
 using NetBootcamp.API.Products.DTOs;
@@ -12,9 +15,13 @@ namespace NetBootcamp.API.Products
 
         private readonly IProductService _productService;
 
-        public ProductsController(IProductService productService)
+        private readonly IDataProtector _dataProtector;
+
+
+        public ProductsController(IProductService productService, IDataProtectionProvider dataProtectionProvider)
         {
             _productService = productService;
+            _dataProtector = dataProtectionProvider.CreateProtector("abc");
         }
 
 
@@ -79,6 +86,29 @@ namespace NetBootcamp.API.Products
         public IActionResult Delete(int productId)
         {
             return CreateActionResult(_productService.Delete(productId));
+        }
+
+        [HttpGet("SifreleMustafa")]
+        public IActionResult SifreleMustafa(string a)
+        {
+            var dataProtected = _dataProtector.ToTimeLimitedDataProtector();
+
+
+            return Ok(Base64UrlEncoder.Encode(dataProtected.Protect(a, TimeSpan.FromSeconds(30))));
+            // return Ok(_dataProtector.Protect(a));
+        }
+
+
+        [HttpGet("GetAllMustafa")]
+        public IActionResult GetAllMustafa(string a)
+        {
+            var decode = Base64UrlEncoder.Decode(a);
+
+            // var unProtectData = _dataProtector.Unprotect(a);
+            var dataProtected = _dataProtector.ToTimeLimitedDataProtector();
+
+
+            return Ok(dataProtected.Unprotect(decode));
         }
     }
 }
