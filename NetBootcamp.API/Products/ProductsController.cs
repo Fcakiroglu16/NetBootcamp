@@ -31,6 +31,13 @@ namespace NetBootcamp.API.Products
         }
 
 
+        [HttpGet("page/{page}/pagesize/{pageSize}")]
+        public IActionResult GetAllByPage(int page, int pageSize, [FromServices] PriceCalculator priceCalculator)
+        {
+            return CreateActionResult(_productService.GetAllByPageWithCalculatedTax(priceCalculator, page, pageSize));
+        }
+
+
         // complex type => class,record,struct => request body as Json
         // simple type => int,string,decimal => query string by default / route data
 
@@ -41,6 +48,14 @@ namespace NetBootcamp.API.Products
 
             return CreateActionResult(result, nameof(GetById), new { productId = result.Data });
         }
+
+
+        [HttpPut("UpdateProductName")]
+        public IActionResult UpdateProductName(ProductNameUpdateRequestDto request)
+        {
+            return CreateActionResult(_productService.UpdateProductName(request.Id, request.Name));
+        }
+
 
         // PUT localhost/api/products/10
         [HttpPut("{productId}")]
