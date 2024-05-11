@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NetBootcamp.API.DTOs;
 using System.Net;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace NetBootcamp.API.Controllers
 {
