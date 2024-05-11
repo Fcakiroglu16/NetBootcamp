@@ -1,4 +1,8 @@
+using System.Reflection;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using NetBootcamp.API.Products;
+using NetBootcamp.API.Products.ProductCreateUseCase;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +10,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddFluentValidationAutoValidation();
+//builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+builder.Services.AddValidatorsFromAssemblyContaining<ProductCreateRequestValidator>();
+
 
 // Add services to the container.
 

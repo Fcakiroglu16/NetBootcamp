@@ -67,7 +67,6 @@ namespace NetBootcamp.API.Products
 
         public void Create(Product product)
         {
-            var methodName = nameof(ProductsController.GetById); // GetById
             _products.Add(product);
         }
 
@@ -83,6 +82,12 @@ namespace NetBootcamp.API.Products
             var product = GetById(id);
 
             _products.Remove(product!);
+        }
+
+
+        public bool IsExists(string productName)
+        {
+            return _products.Any(x => x.Name == productName);
         }
     }
 }

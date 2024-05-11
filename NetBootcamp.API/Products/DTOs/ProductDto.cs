@@ -2,6 +2,7 @@
 {
     public record ProductDto(int Id, string Name, decimal Price, string Created);
 
+
     //public record ProductDto
     //{
     //    public int Id { get; init; }

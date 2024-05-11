@@ -14,5 +14,7 @@
         Product? GetById(int id);
 
         void Delete(int id);
+
+        bool IsExists(string productName);
     }
 }

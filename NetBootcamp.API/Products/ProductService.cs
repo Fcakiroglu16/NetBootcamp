@@ -3,6 +3,7 @@ using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using NetBootcamp.API.DTOs;
 using NetBootcamp.API.Products.DTOs;
+using NetBootcamp.API.Products.ProductCreateUseCase;
 
 namespace NetBootcamp.API.Products
 {
@@ -47,13 +48,6 @@ namespace NetBootcamp.API.Products
         }
 
 
-        public void X()
-        {
-
-            GetByIdWithCalculatedTax()
-
-        }
-
         public ResponseModelDto<ProductDto?> GetByIdWithCalculatedTax(int id,
             PriceCalculator priceCalculator)
         {
@@ -78,10 +72,22 @@ namespace NetBootcamp.API.Products
         // write Add Method
         public ResponseModelDto<int> Create(ProductCreateRequestDto request)
         {
+            // fast fail
+            // Guard clauses
+
+            //var hasProduct = productRepository.IsExists(request.Name.Trim());
+
+            //if (hasProduct)
+            //{
+            //    return ResponseModelDto<int>.Fail("Oluşturma çalıştığınız ürün bulunmaktadır.",
+            //        HttpStatusCode.BadRequest);
+            //}
+
+
             var newProduct = new Product
             {
                 Id = productRepository.GetAll().Count + 1,
-                Name = request.Name,
+                Name = request.Name.Trim(),
                 Price = request.Price,
                 Created = DateTime.Now
             };
