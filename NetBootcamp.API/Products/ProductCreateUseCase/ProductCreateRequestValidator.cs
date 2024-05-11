@@ -18,7 +18,7 @@ namespace NetBootcamp.API.Products.ProductCreateUseCase
                 .InclusiveBetween(1, 1000).WithMessage("Fiyat alanı 1 ile 100 arasında olmalıdır.");
 
             //RuleFor(x => x.IdentityNo).Length(11).WithMessage("TC numarası 11 haneli olmalıdır.").Must(CheckIdentityNo)
-            //    .WithMessage("Tc numarası hatalıdır.");
+            //    .WithMessage("Tc numarası hatalıdı  çl5şt6yçöm3w049u8y76666yy6lhr.");
         }
 
 
@@ -42,7 +42,7 @@ namespace NetBootcamp.API.Products.ProductCreateUseCase
             //}
         }
 
-        public bool CheckIdentityNo(string identityNo)
+        public static bool CheckIdentityNo(string identityNo)
         {
             //Action delegate => void
             //Predicate delegate => bool
