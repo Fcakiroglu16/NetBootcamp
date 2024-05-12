@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using NetBootcamp.API.DTOs;
 using NetBootcamp.API.Products.DTOs;
 using NetBootcamp.API.Products.ProductCreateUseCase;
+using NetBootcamp.API.Repositories;
 
 namespace NetBootcamp.API.Products
 {
-    public class ProductService(IProductRepository productRepository) : IProductService
+    public class ProductService(IProductRepository productRepository, IUnitOfWork unitOfWork) : IProductService
     {
         //private readonly IProductRepository _productRepository;
 
@@ -86,14 +87,17 @@ namespace NetBootcamp.API.Products
 
             var newProduct = new Product
             {
-                Id = productRepository.GetAll().Count + 1,
+                //Id = productRepository.GetAll().Count + 1,
                 Name = request.Name.Trim(),
                 Price = request.Price,
+                Stock = 10,
+                Barcode = Guid.NewGuid().ToString(),
                 Created = DateTime.Now
             };
 
             productRepository.Create(newProduct);
 
+            unitOfWork.Commit();
             return ResponseModelDto<int>.Success(newProduct.Id, HttpStatusCode.Created);
         }
 
@@ -110,8 +114,8 @@ namespace NetBootcamp.API.Products
                     HttpStatusCode.NotFound);
             }
 
-            productRepository.UpdateProductName(name, productId);
-
+            // productRepository.UpdateProductName(name, productId);
+            unitOfWork.Commit();
             return ResponseModelDto<NoContent>.Success(HttpStatusCode.NoContent);
         }
 
@@ -126,16 +130,15 @@ namespace NetBootcamp.API.Products
                     HttpStatusCode.NotFound);
             }
 
-            var updatedProduct = new Product
-            {
-                Id = productId,
-                Name = request.Name,
-                Price = request.Price,
-                Created = hasProduct.Created
-            };
 
-            productRepository.Update(updatedProduct);
+            hasProduct.Name = request.Name;
+            hasProduct.Price = request.Price;
 
+
+            productRepository.Update(hasProduct);
+
+
+            unitOfWork.Commit();
             return ResponseModelDto<NoContent>.Success(HttpStatusCode.NoContent);
         }
 
@@ -152,7 +155,7 @@ namespace NetBootcamp.API.Products
 
 
             productRepository.Delete(id);
-
+            unitOfWork.Commit();
             return ResponseModelDto<NoContent>.Success(HttpStatusCode.NoContent);
         }
     }
