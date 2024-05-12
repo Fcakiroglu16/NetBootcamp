@@ -1,5 +1,6 @@
 ﻿using NetBootcamp.API.Products;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 
 namespace NetBootcamp.API.Repositories
 {
@@ -19,5 +20,7 @@ namespace NetBootcamp.API.Repositories
         Task<T?> GetById(int id);
 
         Task Delete(int id);
+
+        Task<bool> HasExist(int id);
     }
 }

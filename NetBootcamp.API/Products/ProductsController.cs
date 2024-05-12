@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NetBootcamp.API.Controllers;
-using NetBootcamp.API.DTOs;
+using NetBootcamp.API.Filters;
 using NetBootcamp.API.Products.AsyncMethods;
 using NetBootcamp.API.Products.DTOs;
 using NetBootcamp.API.Products.ProductCreateUseCase;
@@ -26,6 +26,10 @@ namespace NetBootcamp.API.Products
             return Ok(await _productService.GetAllWithCalculatedTax(priceCalculator));
         }
 
+        [ServiceFilter(typeof(NotFoundFilter))]
+        [MyResourceFilter]
+        [MyActionFilter]
+        [MyResultFilter]
         [HttpGet("{productId:int}")]
         public async Task<IActionResult> GetById(int productId, [FromServices] PriceCalculator priceCalculator)
         {
@@ -45,22 +49,24 @@ namespace NetBootcamp.API.Products
         // complex type => class,record,struct => request body as Json
         // simple type => int,string,decimal => query string by default / route data
 
+        [SendSmsWhenExceptionFilter]
         [HttpPost]
         public async Task<IActionResult> Create(ProductCreateRequestDto request)
         {
+            throw new Exception("db'ye gidemedi");
             var result = await _productService.Create(request);
 
             return CreateActionResult(result, nameof(GetById), new { productId = result.Data });
         }
 
-
+        [ServiceFilter(typeof(NotFoundFilter))]
         [HttpPut("UpdateProductName")]
         public async Task<IActionResult> UpdateProductName(ProductNameUpdateRequestDto request)
         {
             return CreateActionResult(await _productService.UpdateProductName(request.Id, request.Name));
         }
 
-
+        [ServiceFilter(typeof(NotFoundFilter))]
         // PUT localhost/api/products/10
         [HttpPut("{productId:int}")]
         public async Task<IActionResult> Update(int productId, ProductUpdateRequestDto request)
@@ -78,6 +84,8 @@ namespace NetBootcamp.API.Products
         //    return NoContent();
         //}
 
+
+        [ServiceFilter(typeof(NotFoundFilter))]
         [HttpDelete("{productId:int}")]
         public async Task<IActionResult> Delete(int productId)
         {

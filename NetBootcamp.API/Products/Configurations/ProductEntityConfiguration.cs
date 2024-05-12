@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Reflection.Emit;
 
-namespace NetBootcamp.API.Products
+namespace NetBootcamp.API.Products.Configurations
 {
     public class ProductEntityConfiguration : IEntityTypeConfiguration<Product>
     {

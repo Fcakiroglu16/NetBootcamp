@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace NetBootcamp.API.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity<int>
     {
         public DbSet<T> DbSet { get; set; }
         protected AppDbContext Context;
@@ -58,6 +58,15 @@ namespace NetBootcamp.API.Repositories
             var entity = await GetById(id);
 
             DbSet.Remove(entity!);
+        }
+
+        public Task<bool> HasExist(int id)
+        {
+            return DbSet.AnyAsync(x => x.Id == id);
+
+            //var entity = await GetById(id);
+
+            //return entity is not null;
         }
     }
 }

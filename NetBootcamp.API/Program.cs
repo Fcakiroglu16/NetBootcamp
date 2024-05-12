@@ -1,4 +1,3 @@
-using System.Reflection;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +5,10 @@ using NetBootcamp.API.Products;
 using NetBootcamp.API.Products.AsyncMethods;
 using NetBootcamp.API.Products.ProductCreateUseCase;
 using NetBootcamp.API.Repositories;
+using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
+using NetBootcamp.API.Filters;
+using NetBootcamp.API.Products.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,24 +17,20 @@ builder.Services.AddDbContext<AppDbContext>(x =>
     x.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
 });
 
+
+builder.Services.Configure<ApiBehaviorOptions>(x => { x.SuppressModelStateInvalidFilter = true; });
+
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-builder.Services.AddControllers();
+builder.Services.AddControllers(x => x.Filters.Add<ValidationFilter>());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddFluentValidationAutoValidation();
-//builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-builder.Services.AddValidatorsFromAssemblyContaining<ProductCreateRequestValidator>();
 
-
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-
-builder.Services.AddScoped<IProductService2, ProductService2>();
-builder.Services.AddScoped<IProductRepository2, ProductRepository2>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+builder.Services.AddProductService();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddSingleton<PriceCalculator>();
 
 
 var app = builder.Build();

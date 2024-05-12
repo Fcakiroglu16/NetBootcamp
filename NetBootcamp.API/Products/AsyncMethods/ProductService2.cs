@@ -40,21 +40,8 @@ namespace NetBootcamp.API.Products.AsyncMethods
         {
             var productsList = await productRepository.GetAllByPage(page, pageSize);
 
-            var productListExample = new List<Product>()
-            {
-                new Product() { Id = 10, Created = DateTime.Now, Price = 100, Stock = 10, Name = "kalem 1" }
-            };
 
-
-            var productListAsDto = mapper.Map<List<ProductDto>>(productListExample);
-
-            //var productListAsDto = productsList.Select(product => new ProductDto(
-            //    product.Id,
-            //    product.Name,
-            //    priceCalculator.CalculateKdv(product.Price, 1.20m),
-            //    product.Created.ToShortDateString()
-            //)).ToImmutableList();
-
+            var productListAsDto = mapper.Map<List<ProductDto>>(productsList);
 
             return ResponseModelDto<ImmutableList<ProductDto>>.Success(productListAsDto.ToImmutableList());
         }
@@ -62,15 +49,12 @@ namespace NetBootcamp.API.Products.AsyncMethods
         public async Task<ResponseModelDto<ImmutableList<ProductDto>>> GetAllWithCalculatedTax(
             PriceCalculator priceCalculator)
         {
-            var productList = (await productRepository.GetAll()).Select(product => new ProductDto(
-                product.Id,
-                product.Name,
-                priceCalculator.CalculateKdv(product.Price, 1.20m),
-                product.Created.ToShortDateString()
-            )).ToImmutableList();
+            var productList = await productRepository.GetAll();
+
+            var productListAsDto = mapper.Map<List<ProductDto>>(productList);
 
 
-            return ResponseModelDto<ImmutableList<ProductDto>>.Success(productList);
+            return ResponseModelDto<ImmutableList<ProductDto>>.Success(productListAsDto.ToImmutableList());
         }
 
         public async Task<ResponseModelDto<ProductDto?>> GetByIdWithCalculatedTax(int id,
@@ -78,18 +62,13 @@ namespace NetBootcamp.API.Products.AsyncMethods
         {
             var hasProduct = await productRepository.GetById(id);
 
-            if (hasProduct is null)
-            {
-                return ResponseModelDto<ProductDto?>.Fail("Ürün bulunamadı", HttpStatusCode.NotFound);
-            }
+            //if (hasProduct is null)
+            //{
+            //    return ResponseModelDto<ProductDto?>.Fail("Ürün bulunamadı", HttpStatusCode.NotFound);
+            //}
 
 
-            var productAsDto = new ProductDto(
-                hasProduct.Id,
-                hasProduct.Name,
-                priceCalculator.CalculateKdv(hasProduct.Price, 1.20m),
-                hasProduct.Created.ToShortDateString()
-            );
+            var productAsDto = mapper.Map<ProductDto>(hasProduct);
 
             return ResponseModelDto<ProductDto?>.Success(productAsDto);
         }
@@ -98,11 +77,11 @@ namespace NetBootcamp.API.Products.AsyncMethods
         {
             var hasProduct = await productRepository.GetById(productId);
 
-            if (hasProduct is null)
-            {
-                return ResponseModelDto<NoContent>.Fail("Güncellenmeye çalışılan ürün bulunamadı.",
-                    HttpStatusCode.NotFound);
-            }
+            //if (hasProduct is null)
+            //{
+            //    return ResponseModelDto<NoContent>.Fail("Güncellenmeye çalışılan ürün bulunamadı.",
+            //        HttpStatusCode.NotFound);
+            //}
 
 
             hasProduct.Name = request.Name;
@@ -123,6 +102,27 @@ namespace NetBootcamp.API.Products.AsyncMethods
             await unitOfWork.CommitAsync();
 
             return ResponseModelDto<NoContent>.Success(HttpStatusCode.NoContent);
+        }
+
+
+        public void TryCatchExample(string price)
+        {
+            try
+            {
+            }
+            catch (Exception e)
+            {
+                throw;
+                //  throw new Exception(e.Message);
+            }
+
+
+            if (decimal.TryParse(price, out decimal newPrice))
+            {
+            }
+            else
+            {
+            }
         }
     }
 }
