@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBootcamp.API", "NetBootcamp.API\NetBootcamp.API.csproj", "{1B1E59D0-C476-40AB-A289-4262227D5D07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetBootcamp.API", "NetBootcamp.API\NetBootcamp.API.csproj", "{1B1E59D0-C476-40AB-A289-4262227D5D07}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bootcamp.Web", "Bootcamp.Web\Bootcamp.Web.csproj", "{B98A0960-DFCB-4F79-A7CB-7134DD95B928}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bootcamp.Service", "bootcamp.Service\bootcamp.Service.csproj", "{BE578A8B-1A06-43E4-B4F1-10D86D81640B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bootcamp.Repository", "Bootcamp.Repository\Bootcamp.Repository.csproj", "{DBC3DC73-C39B-401C-A51D-A20F90A59AA4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{B98A0960-DFCB-4F79-A7CB-7134DD95B928}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B98A0960-DFCB-4F79-A7CB-7134DD95B928}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B98A0960-DFCB-4F79-A7CB-7134DD95B928}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE578A8B-1A06-43E4-B4F1-10D86D81640B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE578A8B-1A06-43E4-B4F1-10D86D81640B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE578A8B-1A06-43E4-B4F1-10D86D81640B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE578A8B-1A06-43E4-B4F1-10D86D81640B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBC3DC73-C39B-401C-A51D-A20F90A59AA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBC3DC73-C39B-401C-A51D-A20F90A59AA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBC3DC73-C39B-401C-A51D-A20F90A59AA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBC3DC73-C39B-401C-A51D-A20F90A59AA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

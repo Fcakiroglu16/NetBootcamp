@@ -1,26 +1,26 @@
-using FluentValidation;
+using bootcamp.Service.Products.Configurations;
+using Bootcamp.Repository;
 using FluentValidation.AspNetCore;
-using Microsoft.EntityFrameworkCore;
-using NetBootcamp.API.Products;
-using NetBootcamp.API.Products.AsyncMethods;
-using NetBootcamp.API.Products.ProductCreateUseCase;
-using NetBootcamp.API.Repositories;
-using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NetBootcamp.API.Filters;
-using NetBootcamp.API.Products.Configurations;
+using System.Reflection;
+using bootcamp.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(x =>
 {
-    x.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
+    x.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"),
+        x => { x.MigrationsAssembly(typeof(RepositoryAssembly).Assembly.GetName().Name); });
 });
 
 
 builder.Services.Configure<ApiBehaviorOptions>(x => { x.SuppressModelStateInvalidFilter = true; });
 
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddAutoMapper(typeof(ServiceAssembly).Assembly);
+
+
 builder.Services.AddControllers(x => x.Filters.Add<ValidationFilter>());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
