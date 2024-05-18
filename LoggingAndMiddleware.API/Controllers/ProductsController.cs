@@ -33,15 +33,12 @@ namespace LoggingAndMiddleware.API.Controllers
         [HttpPost]
         public IActionResult Post()
         {
-
-            var response =  new HttpClient().GetAsync("htts://www.google.com").Result;
+            var response = new HttpClient().GetAsync("htts://www.google.com").Result;
 
             if (!response.IsSuccessStatusCode)
             {
                 throw new ExceptionSaveToDatabase("Error while creating product");
             }
-
-           
 
 
             return Ok("product created");

@@ -1,3 +1,4 @@
+using bootcamp.Service;
 using Bootcamp.Repository;
 using NetBootcamp.API.Extensions;
 using NetBootcamp.API.Filters;
@@ -10,7 +11,7 @@ builder.Services.AddControllers(x => x.Filters.Add<ValidationFilter>());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddRepository(builder.Configuration);
-builder.Services.AddService();
+builder.Services.AddService(builder.Configuration);
 
 var app = builder.Build();
 

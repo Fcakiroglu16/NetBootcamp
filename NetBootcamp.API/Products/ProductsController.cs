@@ -3,6 +3,7 @@ using bootcamp.Service.Products.DTOs;
 using bootcamp.Service.Products.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using NetBootcamp.API.Controllers;
+using NetBootcamp.API.ExceptionHandlers;
 using NetBootcamp.API.Filters;
 using NetBootcamp.API.Products.ProductCreateUseCase;
 
@@ -24,7 +25,7 @@ namespace NetBootcamp.API.Products
         [HttpGet]
         public async Task<IActionResult> GetAll([FromServices] PriceCalculator priceCalculator)
         {
-            throw new Exception("db hatası");
+            //throw new CriticalException("db hatası");
             return Ok(await _productService.GetAllWithCalculatedTax(priceCalculator));
         }
 

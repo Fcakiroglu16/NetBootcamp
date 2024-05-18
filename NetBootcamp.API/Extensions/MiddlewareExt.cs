@@ -9,32 +9,34 @@ namespace NetBootcamp.API.Extensions
     {
         public static void AddMiddlewares(this WebApplication app)
         {
-            app.UseExceptionHandler(appBuilder =>
-            {
-                appBuilder.Run(async context =>
-                {
-                    //var loggerFactory= context.RequestServices.GetService<ILoggerFactory>();
+            app.UseExceptionHandler();
+            //app.UseMiddleware<IpWhiteListMiddleware>();
+            //app.UseExceptionHandler(appBuilder =>
+            //{
+            //    appBuilder.Run(async context =>
+            //    {
+            //        //var loggerFactory= context.RequestServices.GetService<ILoggerFactory>();
 
-                    // var logger= loggerFactory!.CreateLogger("GlobalExceptionLogger");
+            //        // var logger= loggerFactory!.CreateLogger("GlobalExceptionLogger");
 
-                    context.Response.StatusCode = 500;
-                    context.Response.ContentType = "application/json";
-                    var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
-
-
-                    if (contextFeature != null)
-                    {
-                        var exception = contextFeature.Error;
+            //        context.Response.StatusCode = 500;
+            //        context.Response.ContentType = "application/json";
+            //        var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
 
 
-                        var responseModel =
-                            ResponseModelDto<NoContent>.Fail(exception.Message, HttpStatusCode.InternalServerError);
+            //        if (contextFeature != null)
+            //        {
+            //            var exception = contextFeature.Error;
 
 
-                        await context.Response.WriteAsJsonAsync(responseModel);
-                    }
-                });
-            });
+            //            var responseModel =
+            //                ResponseModelDto<NoContent>.Fail(exception.Message, HttpStatusCode.InternalServerError);
+
+
+            //            await context.Response.WriteAsJsonAsync(responseModel);
+            //        }
+            //    });
+            //});
 
 
             //app.Use(async (context, next) =>
