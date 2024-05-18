@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Bootcamp.Repository.Products;
 using bootcamp.Service.Products.DTOs;
+using bootcamp.Service.Products.Helpers;
 
 namespace bootcamp.Service.Products.Configurations
 {
@@ -8,9 +9,9 @@ namespace bootcamp.Service.Products.Configurations
     {
         public ProductMapper()
         {
-            CreateMap<Product, ProductDto>().ReverseMap();
-            //.ForMember(x => x.Created, opt => opt.MapFrom(y => y.Created.ToShortDateString()))
-            //.ForMember(x => x.Price, opt => opt.MapFrom(y => 200));
+            CreateMap<Product, ProductDto>()
+                .ForPath(x => x.Created, opt => opt.MapFrom(y => y.Created.ToShortDateString()))
+                .ForPath(x => x.Price, opt => opt.MapFrom(y => new PriceCalculator().CalculateKdv(y.Price, 1.20m)));
         }
     }
 }
