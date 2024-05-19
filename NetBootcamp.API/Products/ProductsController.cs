@@ -52,6 +52,8 @@ namespace NetBootcamp.API.Products
         // complex type => class,record,struct => request body as Json
         // simple type => int,string,decimal => query string by default / route data
 
+
+        [Authorize(Roles = "editor")]
         [SendSmsWhenExceptionFilter]
         [HttpPost]
         public async Task<IActionResult> Create(ProductCreateRequestDto request)

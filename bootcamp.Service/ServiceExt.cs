@@ -1,9 +1,11 @@
-﻿using bootcamp.Service.ExceptionHandlers;
+﻿using Bootcamp.Repository.Identities;
+using bootcamp.Service.ExceptionHandlers;
 using bootcamp.Service.Products.Configurations;
 using bootcamp.Service.Token;
 using bootcamp.Service.Users;
 using bootcamp.Service.Weather;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -31,6 +33,17 @@ namespace bootcamp.Service
             services.AddScoped<IWeatherService, WeatherService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<UserService>();
+        }
+
+        public static async Task SeedIdentityData(this WebApplication app)
+        {
+            using var scope = app.Services.CreateScope();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
+
+
+            await UserSeedData.Seed(userManager, roleManager);
         }
     }
 }

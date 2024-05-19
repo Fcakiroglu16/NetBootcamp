@@ -63,7 +63,7 @@ builder.Services.AddAuthentication(option =>
 var app = builder.Build();
 
 app.SeedDatabase();
-
+await app.SeedIdentityData();
 app.AddMiddlewares();
 
 app.Run();
