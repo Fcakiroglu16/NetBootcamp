@@ -17,7 +17,6 @@ builder.Services.AddService(builder.Configuration);
 builder.Services.AddScoped<IAuthorizationHandler, OverAgeRequirementHandler>();
 
 
-
 builder.Services.AddAuthorization(x =>
 {
     x.AddPolicy("Over18AgePolicy", x => { x.AddRequirements(new OverAgeRequirement() { Age = 10 }); });
