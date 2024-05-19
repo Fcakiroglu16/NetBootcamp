@@ -1,6 +1,7 @@
 ﻿using bootcamp.Service.ExceptionHandlers;
 using bootcamp.Service.Products.Configurations;
 using bootcamp.Service.Token;
+using bootcamp.Service.Users;
 using bootcamp.Service.Weather;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
@@ -29,6 +30,7 @@ namespace bootcamp.Service
             services.Configure<Clients>(configuration.GetSection("Clients"));
             services.AddScoped<IWeatherService, WeatherService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<UserService>();
         }
     }
 }

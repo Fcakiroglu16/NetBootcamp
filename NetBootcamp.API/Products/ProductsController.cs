@@ -1,6 +1,7 @@
 ﻿using bootcamp.Service.Products.AsyncMethods;
 using bootcamp.Service.Products.DTOs;
 using bootcamp.Service.Products.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetBootcamp.API.Controllers;
 using NetBootcamp.API.ExceptionHandlers;
@@ -21,7 +22,6 @@ namespace NetBootcamp.API.Products
         }
 
 
-        //baseUrl/api/products
         [HttpGet]
         public async Task<IActionResult> GetAll([FromServices] PriceCalculator priceCalculator)
         {

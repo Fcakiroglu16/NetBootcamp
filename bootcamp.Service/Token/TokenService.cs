@@ -27,6 +27,13 @@ namespace bootcamp.Service.Token
             {
                 new Claim("clientId", request.ClientId)
             };
+
+            tokenOptions.Value.Audience.ToList()
+                .ForEach(x => { claims.Add(new Claim(JwtRegisteredClaimNames.Aud, x)); });
+
+
+            //  var claimAsAud= new Claim(JwtRegisteredClaimNames.)
+
             var tokenExpire = DateTime.Now.AddHours(tokenOptions.Value.ExpireByHour);
 
 
@@ -37,6 +44,7 @@ namespace bootcamp.Service.Token
             var jwtToken = new JwtSecurityToken(
                 claims: claims,
                 expires: tokenExpire,
+                issuer: tokenOptions.Value.Issuer,
                 signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature));
 
 
