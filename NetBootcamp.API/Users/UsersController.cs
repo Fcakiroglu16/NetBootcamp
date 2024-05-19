@@ -1,5 +1,6 @@
 ﻿using Bootcamp.Repository.Identities;
 using bootcamp.Service.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using NetBootcamp.API.Controllers;
 
 namespace NetBootcamp.API.Users
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController(UserService userService) : CustomBaseController

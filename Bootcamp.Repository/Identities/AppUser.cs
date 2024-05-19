@@ -6,5 +6,7 @@ namespace Bootcamp.Repository.Identities
     {
         public string Name { get; set; } = default!;
         public string Surname { get; set; } = default!;
+
+        public DateTime? BirthDate { get; set; }
     }
 }

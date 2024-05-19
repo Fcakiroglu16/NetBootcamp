@@ -71,6 +71,8 @@ namespace NetBootcamp.API.Products
             return CreateActionResult(await _productService.UpdateProductName(request.Id, request.Name));
         }
 
+
+        [Authorize(Roles = "editor", Policy = "UpdatePolicy")]
         [ServiceFilter(typeof(NotFoundFilter))]
         // PUT localhost/api/products/10
         [HttpPut("{productId:int}")]
@@ -89,7 +91,7 @@ namespace NetBootcamp.API.Products
         //    return NoContent();
         //}
 
-
+        [Authorize(policy: "Over18AgePolicy")]
         [ServiceFilter(typeof(NotFoundFilter))]
         [HttpDelete("{productId:int}")]
         public async Task<IActionResult> Delete(int productId)
