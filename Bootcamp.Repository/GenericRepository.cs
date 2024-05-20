@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bootcamp.Repository
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity<int>
+    public class GenericRepository<T, T2> : IGenericRepository<T, T2> where T : BaseEntity<T2> where T2 : struct
     {
         public DbSet<T> DbSet { get; set; }
         protected AppDbContext Context;
@@ -47,22 +47,24 @@ namespace Bootcamp.Repository
             return entity;
         }
 
-        public async Task<T?> GetById(int id)
+        public async Task<T?> GetById(T2 id)
         {
             var result = await DbSet.FindAsync(id);
             return result;
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(T2 id)
         {
             var entity = await GetById(id);
 
             DbSet.Remove(entity!);
         }
 
-        public Task<bool> HasExist(int id)
+        public Task<bool> HasExist(T2 id)
         {
-            return DbSet.AnyAsync(x => x.Id == id);
+            // x.id== id
+
+            return DbSet.AnyAsync(x => x.Id.Equals(id));
 
             //var entity = await GetById(id);
 

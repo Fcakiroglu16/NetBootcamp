@@ -91,7 +91,7 @@ namespace NetBootcamp.API.Products
         //    return NoContent();
         //}
 
-        [Authorize(policy: "Over18AgePolicy")]
+        //[Authorize(policy: "Over18AgePolicy")]
         [ServiceFilter(typeof(NotFoundFilter))]
         [HttpDelete("{productId:int}")]
         public async Task<IActionResult> Delete(int productId)

@@ -13,7 +13,7 @@ namespace NetBootcamp.API.Extensions
                     x => { x.MigrationsAssembly(typeof(RepositoryAssembly).Assembly.GetName().Name); });
             });
 
-            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }

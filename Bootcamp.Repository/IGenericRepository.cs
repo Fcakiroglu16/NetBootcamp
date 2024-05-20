@@ -2,7 +2,7 @@
 
 namespace Bootcamp.Repository
 {
-    public interface IGenericRepository<T>
+    public interface IGenericRepository<T, in T2>
     {
         Task<IReadOnlyList<T>> GetAll();
 
@@ -15,10 +15,10 @@ namespace Bootcamp.Repository
 
         Task<T> Create(T entity);
 
-        Task<T?> GetById(int id);
+        Task<T?> GetById(T2 id);
 
-        Task Delete(int id);
+        Task Delete(T2 id);
 
-        Task<bool> HasExist(int id);
+        Task<bool> HasExist(T2 id);
     }
 }

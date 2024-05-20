@@ -1,6 +1,6 @@
 ﻿namespace Bootcamp.Repository.Products
 {
-    public class ProductRepository2 : GenericRepository<Product>, IProductRepository2
+    public class ProductRepository2 : GenericRepository<Product, int>, IProductRepository2
     {
         public ProductRepository2(AppDbContext context) : base(context)
         {
