@@ -2,10 +2,16 @@
 
 namespace Bootcamp.ApplicationService.Products
 {
-    public class ProductService(IProductRepository productRepository, ICacheService cacheService)
+    public class ProductService(
+        IProductRepository productRepository,
+        ICacheService cacheService,
+        IUnitOfWork unitOfWork)
     {
         public async Task<ResponseModelDto<int>> CreateProduct(ProductCreateRequestDto request)
         {
+            unitOfWork.BeginTransaction();
+
+
             var productToCreate = new Product
             {
                 Name = request.Name,
@@ -15,6 +21,8 @@ namespace Bootcamp.ApplicationService.Products
             // save to db;
 
             var product = await productRepository.CreateProduct(productToCreate);
+
+            await unitOfWork.TransactionCommitAsync()!;
 
             return ResponseModelDto<int>.Success(product.Id);
         }

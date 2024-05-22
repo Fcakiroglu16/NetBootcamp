@@ -13,7 +13,7 @@ namespace Bootcamp.Repositories
         public async Task<Product> CreateProduct(Product product)
         {
             context.Products.Add(product);
-            await context.SaveChangesAsync();
+
             return product;
         }
 

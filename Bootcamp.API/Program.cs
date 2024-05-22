@@ -18,6 +18,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IProductRepository, ProductRepositorySqlServer>();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<ICacheService, CacheService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddMemoryCache();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
