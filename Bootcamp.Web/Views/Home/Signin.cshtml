@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+}
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Bootcamp.Web.Signin.SigninViewModel
+
+<div class="row">
+    
+    <div class="col-md-4 offset-md-4">
+      
+
+        <form asp-controller="Home" asp-action="Signin" method="post">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input id="email" value="ahmet@outlook.com" asp-for="Email" type="email" class="form-control">
+                <span asp-validation-for="Email"  id="emailHelp" class="form-text"></span>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input value="Password12*" asp-for="Password" type="password" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3 form-check">
+                <input asp-for="RememberMe" type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Beni hatırla</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Giriş yap</button>
+        </form>
+
+    </div>
+    
+
+</div>
+
+

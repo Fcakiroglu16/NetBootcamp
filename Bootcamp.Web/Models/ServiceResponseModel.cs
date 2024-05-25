@@ -2,6 +2,8 @@
 
 namespace Bootcamp.Web.Models
 {
+    public struct NoContent;
+
     public class ServiceResponseModel<T>
     {
         public T? Data { get; set; }
@@ -10,6 +12,13 @@ namespace Bootcamp.Web.Models
 
         public List<string>? Errors { get; set; }
 
+        public static ServiceResponseModel<T> Success()
+        {
+            return new ServiceResponseModel<T>
+            {
+                IsSuccess = true
+            };
+        }
 
         public static ServiceResponseModel<T> Success(T data)
         {

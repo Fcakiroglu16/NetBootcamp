@@ -5,3 +5,15 @@
 <div class="text-center">
     <h1>Sıcaklık :@ViewBag.temp</h1>
 </div>
+@if(Context.User.Identity.IsAuthenticated)
+{
+    <div class="text-center">
+        <h1>Hoşgeldiniz @Context.User.Identity.Name</h1>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1>Hoşgeldiniz Misafir</h1>
+    </div>
+}

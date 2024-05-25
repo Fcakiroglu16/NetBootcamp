@@ -1,10 +1,21 @@
-﻿using Bootcamp.Web.Models;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Bootcamp.Web.Models;
+using Bootcamp.Web.Signin;
+using Bootcamp.Web.Users.Signin;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace Bootcamp.Web.TokenServices
 {
-    public class TokenService(HttpClient client, IOptions<TokenOption> tokenOptions, IMemoryCache memoryCache)
+    public class TokenService(
+        HttpClient client,
+        IOptions<TokenOption> tokenOptions,
+        IMemoryCache memoryCache)
 
     {
         private const string TokenKey = "client_credential:access_token";
