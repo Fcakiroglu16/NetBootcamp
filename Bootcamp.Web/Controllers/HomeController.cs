@@ -1,20 +1,35 @@
 using Bootcamp.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Bootcamp.Web.WeatherServices;
 
 namespace Bootcamp.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(ILogger<HomeController> logger, WeatherService weatherService) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HomeController> _logger = logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public async Task<IActionResult> Index()
         {
-            _logger = logger;
-        }
+            #region 1.yol
 
-        public IActionResult Index()
-        {
+            //1.yol
+            //var response = await weatherService.GetWeatherForecastWithCity("istanbul");
+
+            //if (response.IsSuccess)
+            //{
+            //    ViewBag.temp = response.Data;
+            //}
+            //else
+            //{
+            //    ViewBag.temp = "s?cakl? bilgisi al?namad?.";
+            //} 
+
+            #endregion
+
+            ViewBag.temp = await weatherService.GetWeatherForecastWithCityBetter("istanbul");
+
+
             return View();
         }
 
