@@ -19,7 +19,8 @@ namespace Bootcamp.Web.Controllers
         ILogger<HomeController> logger,
         WeatherService weatherService,
         UserService userService,
-        IDataProtectionProvider dataProtectionProvider) : Controller
+        IDataProtectionProvider dataProtectionProvider,
+        TokenService tokenService) : Controller
     {
         private readonly ILogger<HomeController> _logger = logger;
 
@@ -72,7 +73,7 @@ namespace Bootcamp.Web.Controllers
         public async Task<IActionResult> SignOut()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
+            await userService.RevokeRefreshToken();
             return RedirectToAction(nameof(HomeController.Index));
         }
 
@@ -90,7 +91,6 @@ namespace Bootcamp.Web.Controllers
 
             // DES/3DES/AES =>
 
-           
 
             var valueAsEncrypt = HttpContext.Request.Cookies["bgcolor"];
 

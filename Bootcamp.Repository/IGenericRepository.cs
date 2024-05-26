@@ -10,6 +10,9 @@ namespace Bootcamp.Repository
 
         Task<IReadOnlyList<T>> GetAllByPage(int page, int pageSize);
 
+        // where
+        IQueryable<T> Where(Expression<Func<T, bool>> predicate);
+
         Task Update(T entity);
 
 

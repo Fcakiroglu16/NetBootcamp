@@ -1,5 +1,7 @@
+using System.Threading.Channels;
 using bootcamp.Service;
 using Bootcamp.Repository;
+using Bootcamp.Repository.Identities;
 using bootcamp.Service.Users;
 using NetBootcamp.API.Extensions;
 using NetBootcamp.API.Filters;
@@ -16,7 +18,10 @@ builder.Services.AddRepository(builder.Configuration);
 builder.Services.AddService(builder.Configuration);
 builder.Services.AddScoped<IAuthorizationHandler, OverAgeRequirementHandler>();
 
+builder.Services.AddSingleton(Channel.CreateUnbounded<UserCreatedEvent>());
+//ProductCreatedEvent
 
+builder.Services.AddHostedService<BackgroundServiceEmailSender>();
 builder.Services.AddAuthorization(x =>
 {
     x.AddPolicy("Over18AgePolicy", x => { x.AddRequirements(new OverAgeRequirement() { Age = 10 }); });

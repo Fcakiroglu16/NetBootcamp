@@ -8,13 +8,15 @@ using System.Runtime.Intrinsics.Arm;
 using System.Security.Claims;
 using Bootcamp.Web.Users.Signin;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Http;
 
 namespace Bootcamp.Web.Users
 {
     public class UserService(
         HttpClient client,
         IHttpContextAccessor contextAccessor,
-        IDataProtectionProvider iDataProtectionProvider)
+        IDataProtectionProvider iDataProtectionProvider,
+        ILogger<UserService> logger)
     {
         public async Task<ServiceResponseModel<NoContent>> Signin(SigninViewModel signinViewModel)
         {
@@ -55,7 +57,7 @@ namespace Bootcamp.Web.Users
             authenticationTokenList.Add(new AuthenticationToken()
             {
                 Name = OpenIdConnectParameterNames.RefreshToken,
-                Value = "custom refresh token"
+                Value = responseBody!.Data!.RefreshToken
             });
 
 
@@ -67,15 +69,33 @@ namespace Bootcamp.Web.Users
                 claimsPrincipal, authenticationProperties);
 
 
-            var dataProtector = iDataProtectionProvider.CreateProtector("abc");
-
-
-            var readAsEncrypt = dataProtector.Protect("red");
-
-
-            contextAccessor.HttpContext.Response.Cookies.Append("bgcolor", readAsEncrypt);
+            //var dataProtector = iDataProtectionProvider.CreateProtector("abc");
+            //var readAsEncrypt = dataProtector.Protect("red");
+            //contextAccessor.HttpContext.Response.Cookies.Append("bgcolor", readAsEncrypt);
 
             return ServiceResponseModel<NoContent>.Success();
+        }
+
+
+        public async Task RevokeRefreshToken()
+        {
+            var refreshToken =
+                await contextAccessor!.HttpContext!.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
+
+
+            var response = await client.PostAsync($"/api/Token/RevokeRefreshToken/{refreshToken}", null);
+
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseAsBody = await response.Content.ReadFromJsonAsync<ResponseModelDto<NoContent>>();
+
+
+                foreach (var failMessage in responseAsBody.FailMessages)
+                {
+                    logger.LogError(failMessage);
+                }
+            }
         }
     }
 }

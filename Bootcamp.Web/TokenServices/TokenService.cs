@@ -1,4 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using Bootcamp.Web.Models;
 using Bootcamp.Web.Signin;
@@ -15,7 +16,9 @@ namespace Bootcamp.Web.TokenServices
     public class TokenService(
         HttpClient client,
         IOptions<TokenOption> tokenOptions,
-        IMemoryCache memoryCache)
+        IMemoryCache memoryCache,
+        IHttpContextAccessor httpContextAccessor,
+        ILogger<TokenService> logger)
 
     {
         private const string TokenKey = "client_credential:access_token";

@@ -6,7 +6,5 @@ using System.Threading.Tasks;
 
 namespace bootcamp.Service.Token
 {
-    public record TokenResponseDto(string AccessToken, string RefreshToken);
-
-    //public class TokenResponseDto(string AccessToken);
+    public record SigninByRefreshTokenRequestDto(string Code);
 }
